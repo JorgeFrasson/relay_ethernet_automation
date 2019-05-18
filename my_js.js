@@ -1,6 +1,6 @@
 function AlteraEstadoRele(){
     var estado1 = document.getElementById("estado1").innerHTML;
-    var estado2 = document.getElementById("estado1").innerHTML;
+    var estado2 = document.getElementById("estado2").innerHTML;
     if(estado1 === "0"){
         document.getElementById("estado1").innerHTML="1";
         document.getElementById("rele1").innerHTML="<div class='rele_ligado'></div>";
