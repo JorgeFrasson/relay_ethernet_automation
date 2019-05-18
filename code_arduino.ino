@@ -12,7 +12,7 @@ String readString;
 int RL1 = 9;
 int RL2 = 7;
 boolean estado_RL1 = true;
-boolean estado_RLS2 = true;
+boolean estado_RL2 = true;
 
 //////////////////////
 
@@ -65,6 +65,21 @@ void loop(){
               estado_RL1 = true;
             }
           }
+          
+          if(readString.indexOf("?ligar2") >0)//checks for on
+          {
+            digitalWrite(RL2, HIGH);    // set pin 4 high
+            Serial.println("On");
+            estado_RL2 = false;
+          }
+          else{
+            if(readString.indexOf("?desligar2") >0)//checks for off
+            {
+              digitalWrite(RL2, LOW);    // set pin 4 low
+              Serial.println("Off");
+              estado_RL2 = true;
+            }
+          }
           //clearing string for next read
           readString="";
 
@@ -89,10 +104,10 @@ void loop(){
           client.print(estado_RL1);
           client.print(estado_RL1);
           client.println("</div>");
-          client.println("<div id='botao1'></div>");
+          client.println("<div id='botao1' class='botao'></div>");
           client.println("</div>");
           client.println("</div>");
-          client.println("<div id='botao2'></div>");
+          client.println("<div id='botao2' class='botao'></div>");
           client.println("</div>");
           client.println("<script>AlteraEstadoRele()</script>");
           client.println("</body>");
