@@ -2,17 +2,17 @@ function AlteraEstadoRele(){
     var estado1 = document.getElementById("estado1").innerHTML;
     var estado2 = document.getElementById("estado2").innerHTML;
     if(estado1 === "0"){
-        document.getElementById("botao1").innerHTML="1 On";
-        document.getElementById("botao1").href="/?ligar1";
+        document.getElementById("estado1").innerHTML="1";
+        document.getElementById("rele1").href="desligar1";
     } else {
-        document.getElementById("botao1").innerHTML="1 Off";
-        document.getElementById("botao1").href="/?desligar1";
+        document.getElementById("estado1").innerHTML="0";
+        document.getElementById("rele1").href="ligar1";
     }
     if(estado2 === "0"){
-        document.getElementById("botao2").innerHTML="2 On";
-        document.getElementById("botao2").href="/?ligar2";
+        document.getElementById("estado2").innerHTML="1";
+        document.getElementById("rele2").href="desligar2";
     } else {
-        document.getElementById("botao2").innerHTML="2 Off";
-        document.getElementById("botao2").href="/?desligar2";
+        document.getElementById("estado2").innerHTML="0";
+        document.getElementById("rele2").href="ligar2";
     }
 }
