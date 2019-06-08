@@ -11,8 +11,8 @@ String readString;
 
 int RL1 = 9;
 int RL2 = 7;
-boolean estado_RL1 = true;
-boolean estado_RL2 = true;
+boolean estado_RL1 = false;
+boolean estado_RL2 = false;
 
 //////////////////////
 
@@ -20,6 +20,8 @@ void setup(){
 
   pinMode(RL1, OUTPUT); //pin selected to control
   pinMode(RL2, OUTPUT);
+  pinMode(RL1, HIGH);
+  pinMode(RL2, HIGH);
   //start Ethernet
   
   Ethernet.begin(mac, ip, gateway, subnet);
@@ -27,7 +29,7 @@ void setup(){
   //the pin for the servo co
   //enable serial data print
   Serial.begin(9600);
-  Serial.println("RoboCore Remote Automation V1.1"); // so I can keep track of what is loaded
+  Serial.println("Automacao Residencial Jorge Henrique Frasson"); // so I can keep track of what is loaded
 }
 
 void loop(){
@@ -53,31 +55,31 @@ void loop(){
           Serial.println(readString); //print to serial monitor for debuging
           if(readString.indexOf("?ligar1") >0)//checks for on
           {
-            digitalWrite(RL1, HIGH);    // set pin 4 high
+            digitalWrite(RL1, LOW);    // set pin 4 high
             Serial.println("On");
-            estado_RL1 = false;
+            estado_RL1 = true;
           }
           else{
             if(readString.indexOf("?desligar1") >0)//checks for off
             {
-              digitalWrite(RL1, LOW);    // set pin 4 low
+              digitalWrite(RL1, HIGH);    // set pin 4 low
               Serial.println("Off");
-              estado_RL1 = true;
+              estado_RL1 = false;
             }
           }
           
           if(readString.indexOf("?ligar2") >0)//checks for on
           {
-            digitalWrite(RL2, HIGH);    // set pin 4 high
+            digitalWrite(RL2, LOW);    // set pin 4 high
             Serial.println("On");
-            estado_RL2 = false;
+            estado_RL2 = true;
           }
           else{
             if(readString.indexOf("?desligar2") >0)//checks for off
             {
-              digitalWrite(RL2, LOW);    // set pin 4 low
+              digitalWrite(RL2, HIGH);    // set pin 4 low
               Serial.println("Off");
-              estado_RL2 = true;
+              estado_RL2 = false;
             }
           }
           //clearing string for next read
@@ -92,26 +94,32 @@ void loop(){
 
           client.println("<html>");
           client.println("<head>");
-          client.println("<title>RoboCore - Remote Automation</title>");
           client.println("<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>");
-          client.println("<link rel='stylesheet' type='text/css' href='http://www.robocore.net/upload/projetos/RemoteAutomationV1.0.css' />");
-          client.println("<script type='text/javascript' src='I:\\Meus Documentos\\Desktop\\automacao_ethernet'></script>");
+          client.println("<script type='text/javascript' src='https://cdn.jsdelivr.net/gh/JorgeFrasson/relay_ethernet_automation@dc7ba526cd72fb8cadb76c00c6e330d48ff626d8/my_js.js'></script>");
+          client.println("<link rel='stylesheet' type='text/css' href=''>");
           client.println("</head>");
           client.println("<body>");
-          client.println("<div id='wrapper'>RoboCore Remote Automation V1.1");
-          client.print("<div id='rele'></div><div id='estado1' style='visibility: hidden;'>");
-          client.print("<div id='rele'></div><div id='estado2' style='visibility: hidden;'>");
-          client.print(estado_RL1);
-          client.print(estado_RL1);
-          client.println("</div>");
-          client.println("<div id='botao1' class='botao'></div>");
-          client.println("</div>");
-          client.println("</div>");
-          client.println("<div id='botao2' class='botao'></div>");
-          client.println("</div>");
-          client.println("<script>AlteraEstadoRele()</script>");
+          client.println("<a id='rele1'><button class='botao'>rele1</button></a>");
+          client.println("<a id='rele2'><button class='botao'>rele2</button></a>"); 
+          if (estado_RL1){
+            Serial.print(estado_RL1);
+            client.println("<p id='estado1' hidden='true'>1</p>");
+          }
+          else {
+            Serial.print(estado_RL1);
+            client.println("<p id='estado1' hidden='true'>0</p>");
+          }
+          if (estado_RL2){
+            Serial.print(estado_RL2);
+            client.println("<p id='estado2' hidden='true'>1</p>");
+          }
+          else {
+            Serial.print(estado_RL2);
+            client.println("<p id='estado2' hidden='true'>0</p>");
+          }
+          client.println("<script>AlteraEstadoRele();</script>");
           client.println("</body>");
-          client.println("</head>");
+          client.println("</html>");
 
           delay(1);
           //stopping client
